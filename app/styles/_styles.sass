@@ -15,6 +15,13 @@ h1,h2,h3,h4,h5
   font-family: $sans
   font-weight: 300
 
+h2
+  &.branch-title
+    background: $link
+    color: $white
+    padding: 0.8em
+    margin: 0.5em 0
+
 p
   margin-bottom: $lh
 
@@ -73,3 +80,10 @@ hr
   border-top: 1px solid $grey-light
   border-bottom: 1px solid $grey-light
   background: $white
+
+.branch-detail
+  .item
+    margin: 1em 9px
+
+    &.phone-item h4
+      font-size: inherit
