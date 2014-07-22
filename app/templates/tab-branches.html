@@ -1,9 +1,24 @@
 <ion-view title="Branches">
   <ion-content class="has-header">
-    <ion-list>
-      <ion-item ng-repeat="branch in branches" type="item-text-wrap" href="#/tab/branch/{{$index}}">
-        {{branch.title}}
-      </ion-item>
-    </ion-list>
+    <div class="row responsive-md">
+      <div ng-repeat="branch in branches" type="item-text-wrap" href="#/tab/branch/{{$index}}" class="col">
+
+        <div class="list card">
+          <div class="item">
+            <h2>{{branch.title}}</h2>
+          </div>
+
+          <div class="item item-image">
+            <a href="#/tab/branch/{{$index}}"><img ng-src="{{branch.field_image}}" /></a>
+          </div>
+
+          <a class="item item-icon-left assertive" href="#/tab/branch/{{$index}}">
+            <i class="icon ion-pinpoint"></i>
+            More information
+          </a>
+        </div>
+        
+      </div>
+    </div>
   </ion-content>
 </ion-view>

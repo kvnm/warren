@@ -1,7 +1,7 @@
 'use strict';
 angular.module('Warren.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function() {
 })
 
 .controller('BranchesCtrl', function($scope, Branches) {
@@ -14,5 +14,9 @@ angular.module('Warren.controllers', [])
   Branches.getCached().then(function(data) {
     $scope.branch = data[$stateParams.branchId];
   });
+
+  $scope.launchMap = function(branch) {
+    window.location = 'maps:daddr=' + branch.latitude + ',' + branch.longitude;
+  };
 })
 ;

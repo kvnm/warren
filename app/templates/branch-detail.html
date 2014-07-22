@@ -39,7 +39,7 @@
         <div class="location">
           {{branch.street}}<br />
           {{branch.city}}, {{branch.province}} {{branch.postal_code}}<br />
-          <strong>View map</strong>: <a href="http://maps.google.com/?q={{branch.latitude}}+{{branch.longitude}}">Google Map</a>
+          <strong>View map</strong>: <a ng-click="launchMap(branch)" href>Google Map</a>
         </div>
       </div>
     </div>
