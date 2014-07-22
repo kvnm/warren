@@ -49,31 +49,31 @@ angular.module('Warren', ['ionic', 'Warren.controllers', 'Warren.services'])
       }
     })
 
-    .state('tab.friends', {
-      url: '/friends',
+    .state('tab.branches', {
+      url: '/branches',
       views: {
-        'tab-friends': {
-          templateUrl: 'templates/tab-friends.html',
-          controller: 'FriendsCtrl'
+        'tab-branches': {
+          templateUrl: 'templates/tab-branches.html',
+          controller: 'BranchesCtrl'
         }
       }
     })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
+    .state('tab.branch-detail', {
+      url: '/branch/:branchId',
       views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+        'tab-branches': {
+          templateUrl: 'templates/branch-detail.html',
+          controller: 'BranchDetailCtrl'
         }
       }
     })
 
-    .state('tab.account', {
-      url: '/account',
+    .state('tab.search', {
+      url: '/search',
       views: {
-        'tab-account': {
-          templateUrl: 'templates/tab-account.html',
-          controller: 'AccountCtrl'
+        'tab-search': {
+          templateUrl: 'templates/tab-search.html',
+          controller: 'BranchesCtrl'
         }
       }
     });

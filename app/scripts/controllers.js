@@ -4,13 +4,15 @@ angular.module('Warren.controllers', [])
 .controller('DashCtrl', function($scope) {
 })
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
+.controller('BranchesCtrl', function($scope, Branches) {
+  Branches.getCached().then(function(data) {
+    $scope.branches = data;
+  });
 })
 
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
+.controller('BranchDetailCtrl', function($scope, $stateParams, Branches) {
+  Branches.getCached().then(function(data) {
+    $scope.branch = data[$stateParams.branchId];
+  });
 })
-
-.controller('AccountCtrl', function($scope) {
-});
+;

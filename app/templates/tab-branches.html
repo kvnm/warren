@@ -1,0 +1,9 @@
+<ion-view title="Branches">
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-item ng-repeat="branch in branches" type="item-text-wrap" href="#/tab/branch/{{$index}}">
+        {{branch.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

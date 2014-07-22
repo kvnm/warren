@@ -1,0 +1,16 @@
+<ion-view title="Search">
+  <ion-content class="has-header padding">
+    <h1>Search Catalog</h1>
+    <form class="form-horizontal" role="form" method="get" action="javascript:void(0)" onsubmit="window.location=\'http://warrenls2.org:8080/?config=ysm#section=search&amp;term=\'+this.term.value;">
+      <div id="searchbox" class="form-group">
+        <div class="list list-inset" id="searchboxwrapper">
+          <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input placeholder="Search" class="form-control" name="term" id="SearchData" value="" type="text">
+          </label>
+        </div>
+        <button type="submit" class="btn btn-sm">Search</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>
