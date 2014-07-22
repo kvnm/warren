@@ -73,7 +73,7 @@ angular.module('Warren', ['ionic', 'Warren.controllers', 'Warren.services'])
       views: {
         'tab-search': {
           templateUrl: 'templates/tab-search.html',
-          controller: 'BranchesCtrl'
+          controller: 'SearchCtrl'
         }
       }
     });
