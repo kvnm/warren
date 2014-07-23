@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.example.Warren" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Warren</name>
+    <name>Warren County Library</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+       Mobile Application for Warren County Library system.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="kevin@new-media-solutions.com" href="http://new-media-solutions.com">
+        New Media Solutions
     </author>
     <content src="index.html" />
     <access origin="*" />
