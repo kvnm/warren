@@ -15,6 +15,7 @@ angular.module('Warren.controllers', [])
 .controller('BranchDetailCtrl', function($scope, $stateParams, Branches) {
   Branches.getCached().then(function(data) {
     $scope.branch = data[$stateParams.branchId];
+    $scope.branch.phoneNumber = $scope.branch.phone.replace(/[^A-Z0-9]/ig, '');
   });
 
   $scope.launchMap = function(branch) {

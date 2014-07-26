@@ -16,7 +16,7 @@ angular.module('Warren.services', [])
         // Get from cache
         deferred.resolve(cache);
       } else {
-        $http.get('//wcl.groupish.com/api/branches', { cache: true })
+        $http.get('http://wcl.groupish.com/api/branches', { cache: true })
           .success(function (data) {
             // Store to cache
             branchesCache.put('allBranches', data);
