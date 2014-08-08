@@ -32,7 +32,19 @@ angular.module('Warren.controllers', [])
 
   $scope.openEvent = function(eid) {
     window.open('http://warrenlib.evanced.info/signup/EventDetails.aspx?EventId=' + eid, '_blank', 'location=yes');
-  }
+  };
+})
+
+.controller('ResourcesCtrl', function($scope, Resources, LoaderService) {
+  LoaderService.show();
+  Resources.getCached().then(function(data) {
+    LoaderService.hide();
+    $scope.resources = data;
+  });
+
+  $scope.openResource = function(link) {
+    window.open(link, '_blank', 'location=yes');
+  };
 })
 
 .controller('SearchCtrl', function($scope) {

@@ -1,0 +1,16 @@
+<ion-view title="Resources">
+  <ion-content class="has-header">
+    <div class="resource-page list list-inset">
+      <div ng-repeat="resource in resources" type="item-text-wrap" class="card slide-in-left">
+        <div class="item item-divider item-text-wrap">
+          <h2>{{resource.title}}</h2>
+        </div>
+        <div class="item item-text-wrap">
+          <p>{{resource.description}}</p>
+          <i class="icon ion-ios7-people"></i> {{resource.audience}}
+        </div>
+        <button class="item button button-calm button-full icon-right ion-chevron-right" ng-click="openResource(resource.link)" ng-if="resource.link">Launch Resource</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

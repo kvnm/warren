@@ -51,6 +51,31 @@ angular.module('Warren.services', [])
   };
 })
 
+.factory('Resources', function ($http, $q, $cacheFactory) {
+  var resourcesCache = $cacheFactory('allResources');
+
+  return {
+    getCached: function () {
+      var cache = resourcesCache.get('allResources');
+      var deferred = $q.defer();
+
+      if (cache) {
+        // Get from cache
+        deferred.resolve(cache);
+      } else {
+        $http.get('http://wcl.groupish.com/api/resources', { cache: true })
+          .success(function (data) {
+            // Store to cache
+            resourcesCache.put('allResources', data);
+            deferred.resolve(data);
+          });
+      }
+
+      return deferred.promise;
+    }
+  };
+})
+
 .factory('LoaderService', function($rootScope, $ionicLoading) {
   // Trigger the loading indicator
   return {

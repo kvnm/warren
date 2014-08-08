@@ -1,28 +1,36 @@
 <ion-view title="Events">
   <ion-content class="has-header">
-    <div ng-repeat="event in events" type="item-text-wrap">
+    <div ng-repeat="event in events" type="item-text-wrap" class="slide-in-left">
       <div class="list card">
         <div class="item item-divider">
           <h2>{{event.title}}</h2>
         </div>
         <div class="item item-body item-text-wrap">
-          <p>{{event.date}}</p>
-          <p>{{event.body}}</p>
-          <a ng-click="openEvent(event.eid)" class="button icon-right ion-chevron-right button-positive">Learn More</a>
+          {{event.body}}
         </div>
-        <div class="item tabs tabs-icon-left">
-          <div class="tab-item">
-            <i class="icon ion-location"></i>
-            {{event.location}}
+        <div class="item padding">
+          <div class="row responsive-md">
+            <div class="col">
+              <i class="icon ion-calendar"></i>
+              {{event.date}}
+            </div>
+            <div class="col">
+              <i class="icon ion-location"></i>
+              {{event.location}}
+            </div>
           </div>
-          <div class="tab-item">
-            <i class="icon ion-ios7-pricetags"></i>
-            {{event.type}}
+          <div class="row responsive-md">
+            <div class="col">
+              <i class="icon ion-ios7-pricetags"></i>
+              {{event.type}}
+            </div>
+            <div class="col">
+              <i class="icon ion-ios7-people"></i>
+              {{event.age}}
+            </div>
           </div>
-          <div class="tab-item">
-            <i class="icon ion-ios7-people"></i>
-            {{event.age}}
-          </div>
+        </div>
+        <div ng-click="openEvent(event.eid)" class="item button icon-right ion-chevron-right button-full button-calm">Learn More
         </div>
       </div>
     </div>

@@ -78,6 +78,16 @@ angular.module('Warren', ['ionic', 'Warren.controllers', 'Warren.services'])
       }
     })
 
+    .state('tab.resources', {
+      url: '/resources',
+      views: {
+        'tab-resources': {
+          templateUrl: 'templates/tab-resources.html',
+          controller: 'ResourcesCtrl'
+        }
+      }
+    })
+
     .state('tab.search', {
       url: '/search',
       views: {
