@@ -10,21 +10,17 @@
     <h2 class="branch-title">{{branch.title}}</h2>
 
     <div class="branch-info" padding="true">
-
-      <a href="tel:{{branch.phoneNumber}}">
-        <div class="item item-button-left phone-item">
-          <button class="button button-calm">
-            <i class="icon ion-ios7-telephone"></i>
-          </button>
-          <h4>{{branch.phone}}</h4>
-        </div>
-      </a>
       
       <div class="row responsive-sm tease">
         <div class="col">
           <img class="full-image" ng-src="{{branch.field_image}}" />
         </div>
         <div class="col">
+          <a href="tel:{{branch.phoneNumber}}">
+            <button class="button button-calm button-large icon-left ion-ios7-telephone">
+              {{branch.phone}}
+            </button>
+          </a><br /><br />
           <div ng-bind-html="branch.body"></div>
         </div>
       </div>
@@ -32,21 +28,21 @@
         <div class="col">
           <h3>Hours</h3>
           <div class="hours">
-            <pre>{{branch.field_project_info}}</pre>
+            {{branch.field_project_info}}
           </div>
         </div>
         <div class="col">
           <h3>Staff</h3>
           <div class="staff">
-            <pre>{{branch.field_staff}}</pre>
+            {{branch.field_staff}}
           </div>
         </div>
         <div class="col">
           <h3>Location</h3>
           <div class="location">
             {{branch.street}}<br />
-            {{branch.city}}, {{branch.province}} {{branch.postal_code}}<br />
-            <strong>View map</strong>: <a ng-click="launchMap(branch)" href>Google Map</a>
+            {{branch.city}}, {{branch.province}} {{branch.postal_code}}<br /><br />
+            <button ng-click="launchMap(branch)" class="button button-calm button-large icon-left ion-navigate">View Map</button>
           </div>
         </div>
       </div>
