@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.kevinmcconnaughay.Warren" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Warren</name>
+<widget id="com.warrenlib.WCL" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>WCL</name>
     <description>
        Mobile Application for Warren County Library system.
     </description>
-    <author email="kevin@new-media-solutions.com" href="http://new-media-solutions.com">
-        New Media Solutions
+    <author email="kevin@kevinmcconnaughay.com" href="http://kevinmcconnaughay.com">
+        Kevin McConnaughay
     </author>
     <content src="index.html" />
     <access origin="*" />
