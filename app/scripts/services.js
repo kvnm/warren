@@ -13,7 +13,7 @@ angular.module('Warren.services', [])
         // Get from cache
         deferred.resolve(cache);
       } else {
-        $http.get('http://wcl.groupish.com/api/branches', { cache: true })
+        $http.get('http://warrenlib.com/api/branches', { cache: true })
           .success(function (data) {
             // Store to cache
             branchesCache.put('allBranches', data);
@@ -38,7 +38,7 @@ angular.module('Warren.services', [])
         // Get from cache
         deferred.resolve(cache);
       } else {
-        $http.get('http://wcl.groupish.com/api/events', { cache: true })
+        $http.get('http://warrenlib.com/api/events', { cache: true })
           .success(function (data) {
             // Store to cache
             eventsCache.put('allEvents', data);
@@ -63,7 +63,7 @@ angular.module('Warren.services', [])
         // Get from cache
         deferred.resolve(cache);
       } else {
-        $http.get('http://wcl.groupish.com/api/resources', { cache: true })
+        $http.get('http://warrenlib.com/api/resources', { cache: true })
           .success(function (data) {
             // Store to cache
             resourcesCache.put('allResources', data);
