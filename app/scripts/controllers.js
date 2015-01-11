@@ -21,6 +21,10 @@ angular.module('Warren.controllers', [])
   $scope.launchMap = function(branch) {
     window.location = 'maps:daddr=' + branch.latitude + ',' + branch.longitude;
   };
+
+  $scope.Phone = function(number) {
+    window.location = 'tel:' + number;
+  };
 })
 
 .controller('EventsCtrl', function($scope, Events, LoaderService) {

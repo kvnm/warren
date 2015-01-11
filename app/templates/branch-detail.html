@@ -16,11 +16,10 @@
           <img class="full-image" ng-src="{{branch.field_image}}" />
         </div>
         <div class="col">
-          <a href="tel:{{branch.phoneNumber}}">
-            <button class="button button-calm button-large icon-left ion-ios7-telephone">
-              {{branch.phone}}
-            </button>
-          </a><br /><br />
+          <button ng-click="launchPhone(branch.phoneNumber)" class="button button-calm button-large icon-left ion-ios7-telephone">
+            {{branch.phone}}
+          </button>
+          <br /><br />
           <div ng-bind-html="branch.body"></div>
         </div>
       </div>
