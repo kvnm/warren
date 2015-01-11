@@ -1,9 +1,9 @@
-// Generated on 2014-07-22 using generator-ionic 0.3.7
+// Generated on 2015-01-11 using generator-ionic 0.6.1
 'use strict';
 
 var _ = require('lodash');
 var path = require('path');
-var cordova = require('cordova');
+var cordovaCli = require('cordova');
 var spawn = require('child_process').spawn;
 
 module.exports = function (grunt) {
@@ -26,32 +26,56 @@ module.exports = function (grunt) {
       images: 'images'
     },
 
+    // Environment Variables for Angular App
+    // This creates an Angular Module that can be injected via ENV
+    // Add any desired constants to the ENV objects below.
+    // https://github.com/diegonetto/generator-ionic#environment-specific-configuration
+    ngconstant: {
+      options: {
+        space: '  ',
+        wrap: '"use strict";\n\n {%= __ngModule %}',
+        name: 'config',
+        dest: '<%= yeoman.app %>/scripts/config.js'
+      },
+      development: {
+        constants: {
+          ENV: {
+            name: 'development',
+            apiEndpoint: 'http://dev.yoursite.com:10000/'
+          }
+        }
+      },
+      production: {
+        constants: {
+          ENV: {
+            name: 'production',
+            apiEndpoint: 'http://api.yoursite.com/'
+          }
+        }
+      }
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
+      bower: {
+        files: ['bower.json'],
+        tasks: ['wiredep', 'newer:copy:app']
+      },
+      html: {
+        files: ['<%= yeoman.app %>/**/*.html'],
+        tasks: ['newer:copy:app']
+      },
       js: {
         files: ['<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.js'],
-        tasks: ['newer:jshint:all'],
-        options: {
-          livereload: true
-        }
+        tasks: ['newer:copy:app', 'newer:jshint:all']
       },
       compass: {
         files: ['<%= yeoman.app %>/<%= yeoman.styles %>/**/*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
+        tasks: ['compass:server', 'autoprefixer', 'newer:copy:tmp']
       },
       gruntfile: {
-        files: ['Gruntfile.js']
-      },
-      livereload: {
-        options: {
-          livereload: '<%= connect.options.livereload %>'
-        },
-        files: [
-          '<%= yeoman.app %>/*.html',
-          '<%= yeoman.app %>/templates/**/*.html',
-          '.tmp/<%= yeoman.styles %>/**/*.css',
-          '<%= yeoman.app %>/<%= yeoman.images %>/**/*.{png,jpg,jpeg,gif,webp,svg}'
-        ]
+        files: ['Gruntfile.js'],
+        tasks: ['ngconstant:development', 'newer:copy:app']
       }
     },
 
@@ -60,17 +84,7 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
-        livereload: 35729
-      },
-      livereload: {
-        options: {
-          open: true,
-          base: [
-            '.tmp',
-            '<%= yeoman.app %>'
-          ]
-        }
+        hostname: 'localhost'
       },
       dist: {
         options: {
@@ -134,10 +148,14 @@ module.exports = function (grunt) {
     },
 
     // Automatically inject Bower components into the app
-    'bower-install': {
+    wiredep: {
       app: {
-        html: '<%= yeoman.app %>/index.html',
-        ignorePath: '<%= yeoman.app %>/'
+        src: ['<%= yeoman.app %>/index.html'],
+        ignorePath:  /\.\.\//
+      },
+      sass: {
+        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        ignorePath: /(\.\.\/){1,2}lib\//
       }
     },
 
@@ -147,13 +165,13 @@ module.exports = function (grunt) {
       options: {
         sassDir: '<%= yeoman.app %>/<%= yeoman.styles %>',
         cssDir: '.tmp/<%= yeoman.styles %>',
-        generatedImagesDir: '.tmp/img/generated',
-        imagesDir: '<%= yeoman.app %>/img',
+        generatedImagesDir: '.tmp/<%= yeoman.images %>/generated',
+        imagesDir: '<%= yeoman.app %>/<%= yeoman.images %>',
         javascriptsDir: '<%= yeoman.app %>/<%= yeoman.scripts %>',
         fontsDir: '<%= yeoman.app %>/<%= yeoman.styles %>/fonts',
-        importPath: '<%= yeoman.app %>/bower_components',
-        httpImagesPath: '/img',
-        httpGeneratedImagesPath: '/img/generated',
+        importPath: '<%= yeoman.app %>/lib',
+        httpImagesPath: '/<%= yeoman.images %>',
+        httpGeneratedImagesPath: '/<%= yeoman.images %>/generated',
         httpFontsPath: '/<%= yeoman.styles %>/fonts',
         relativeAssets: false,
         assetCacheBuster: false,
@@ -161,7 +179,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          generatedImagesDir: '<%= yeoman.dist %>/img/generated'
+          generatedImagesDir: 'www/<%= yeoman.images %>/generated'
         }
       },
       server: {
@@ -233,11 +251,10 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           dest: 'www',
           src: [
-            'images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.images %>/**/*.{png,jpg,jpeg,gif,webp,svg}',
             '*.html',
             'templates/**/*.html',
-            'fonts/*',
-            'res/**'
+            'fonts/*'
           ]
         }, {
           expand: true,
@@ -254,7 +271,7 @@ module.exports = function (grunt) {
       },
       fonts: {
         expand: true,
-        cwd: 'app/bower_components/ionic/release/fonts/',
+        cwd: 'app/lib/ionic/release/fonts/',
         dest: '<%= yeoman.app %>/fonts/',
         src: '*'
       },
@@ -264,15 +281,30 @@ module.exports = function (grunt) {
         dest: '.tmp/<%= yeoman.styles %>/',
         src: '{,*/}*.css'
       },
-      all: {
+      app: {
         expand: true,
-        cwd: '<%= yeoman.app %>/',
-        src: '**',
-        dest: 'www/'
+        cwd: '<%= yeoman.app %>',
+        dest: 'www/',
+        src: [
+          '**/*',
+          '!**/*.(scss,sass,css)',
+        ]
+      },
+      tmp: {
+        expand: true,
+        cwd: '.tmp',
+        dest: 'www/',
+        src: '**/*'
       }
     },
 
     concurrent: {
+      ionic: {
+        tasks: [],
+        options: {
+          logConcurrentOutput: true
+        }
+      },
       server: [
         'compass:server',
         'copy:styles',
@@ -326,13 +358,13 @@ module.exports = function (grunt) {
         basePath: '',
         frameworks: ['mocha', 'chai'],
         files: [
-          '<%= yeoman.app %>/bower_components/angular/angular.js',
-          '<%= yeoman.app %>/bower_components/angular-animate/angular-animate.js',
-          '<%= yeoman.app %>/bower_components/angular-sanitize/angular-sanitize.js',
-          '<%= yeoman.app %>/bower_components/angular-ui-router/release/angular-ui-router.js',
-          '<%= yeoman.app %>/bower_components/ionic/release/js/ionic.js',
-          '<%= yeoman.app %>/bower_components/ionic/release/js/ionic-angular.js',
-          '<%= yeoman.app %>/bower_components/angular-mocks/angular-mocks.js',
+          '<%= yeoman.app %>/lib/angular/angular.js',
+          '<%= yeoman.app %>/lib/angular-animate/angular-animate.js',
+          '<%= yeoman.app %>/lib/angular-sanitize/angular-sanitize.js',
+          '<%= yeoman.app %>/lib/angular-ui-router/release/angular-ui-router.js',
+          '<%= yeoman.app %>/lib/ionic/release/js/ionic.js',
+          '<%= yeoman.app %>/lib/ionic/release/js/ionic-angular.js',
+          '<%= yeoman.app %>/lib/angular-mocks/angular-mocks.js',
           '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.js',
           'test/mock/**/*.js',
           'test/spec/**/*.js'
@@ -379,10 +411,8 @@ module.exports = function (grunt) {
 
   });
 
-  // Register tasks for all Cordova commands, but namespace
-  // the cordova:build since we already have a build task.
-  _.functions(cordova).forEach(function (name) {
-    name = (name === 'build') ? 'cordova:build' : name;
+  // Register tasks for all Cordova commands
+  _.functions(cordovaCli).forEach(function (name) {
     grunt.registerTask(name, function () {
       this.args.unshift(name.replace('cordova:', ''));
       // Handle URL's being split up by Grunt because of `:` characters
@@ -390,8 +420,10 @@ module.exports = function (grunt) {
         this.args = this.args.slice(0, -2).concat(_.last(this.args, 2).join(':'));
       }
       var done = this.async();
-      var cmd = path.resolve('./node_modules/cordova/bin', 'cordova');
-      var child = spawn(cmd, this.args);
+      var exec = process.platform === 'win32' ? 'cordova.cmd' : 'cordova';
+      var cmd = path.resolve('./node_modules/cordova/bin', exec);
+      var flags = process.argv.splice(3);
+      var child = spawn(cmd, this.args.concat(flags));
       child.stdout.on('data', function (data) {
         grunt.log.writeln(data);
       });
@@ -399,7 +431,7 @@ module.exports = function (grunt) {
         grunt.log.error(data);
       });
       child.on('close', function (code) {
-        code = (name === 'cordova:build') ? true : code ? false : true;
+        code = code ? false : true;
         done(code);
       });
     });
@@ -410,12 +442,12 @@ module.exports = function (grunt) {
   // over to www/. Last step is running cordova prepare so we can refresh the ripple
   // browser tab to see the changes. Technically ripple runs `cordova prepare` on browser
   // refreshes, but at this time you would need to re-run the emulator to see changes.
-  grunt.registerTask('ripple', ['bower-install', 'copy:all', 'ripple-emulator']);
+  grunt.registerTask('ripple', ['wiredep', 'newer:copy:app', 'ripple-emulator']);
   grunt.registerTask('ripple-emulator', function () {
     grunt.config.set('watch', {
       all: {
         files: _.flatten(_.pluck(grunt.config.get('watch'), 'files')),
-        tasks: ['copy:all', 'prepare']
+        tasks: ['newer:copy:app', 'prepare']
       }
     });
 
@@ -446,32 +478,61 @@ module.exports = function (grunt) {
     return grunt.task.run(['watch']);
   });
 
-  grunt.registerTask('serve', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
-    }
-
-    grunt.task.run([
-      'clean:server',
-      'bower-install',
-      'concurrent:server',
-      'autoprefixer',
-      'connect:livereload',
-      'watch'
-    ]);
+  // Wrap ionic-cli commands
+  grunt.registerTask('ionic', function() {
+    var done = this.async();
+    var script = path.resolve('./node_modules/ionic/bin/', 'ionic');
+    var flags = process.argv.splice(3);
+    var child = spawn(script, this.args.concat(flags), { stdio: 'inherit' });
+    child.on('close', function (code) {
+      code = code ? false : true;
+      done(code);
+    });
   });
 
   grunt.registerTask('test', [
-    'clean:server',
+    'clean',
     'concurrent:test',
     'autoprefixer',
     'karma:unit:start',
     'watch:karma'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'bower-install',
+  grunt.registerTask('serve', function (target) {
+    if (target === 'compress') {
+      return grunt.task.run(['compress', 'ionic:serve']);
+    }
+
+    grunt.config('concurrent.ionic.tasks', ['ionic:serve', 'watch']);
+    grunt.task.run(['init', 'concurrent:ionic']);
+  });
+  grunt.registerTask('emulate', function() {
+    grunt.config('concurrent.ionic.tasks', ['ionic:emulate:' + this.args.join(), 'watch']);
+    return grunt.task.run(['init', 'concurrent:ionic']);
+  });
+  grunt.registerTask('run', function() {
+    grunt.config('concurrent.ionic.tasks', ['ionic:run:' + this.args.join(), 'watch']);
+    return grunt.task.run(['init', 'concurrent:ionic']);
+  });
+  grunt.registerTask('build', function() {
+    return grunt.task.run(['init', 'ionic:build:' + this.args.join()]);
+  });
+
+  grunt.registerTask('init', [
+    'clean',
+    'ngconstant:development',
+    'wiredep',
+    'concurrent:server',
+    'autoprefixer',
+    'newer:copy:app',
+    'newer:copy:tmp'
+  ]);
+
+
+  grunt.registerTask('compress', [
+    'clean',
+    'ngconstant:production',
+    'wiredep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
@@ -481,17 +542,14 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'usemin',
-    'htmlmin',
-    'cordova:build'
+    'htmlmin'
   ]);
-
-  grunt.registerTask('cordova', ['copy:all', 'cordova:build']);
 
   grunt.registerTask('coverage', ['karma:continuous', 'connect:coverage:keepalive']);
 
   grunt.registerTask('default', [
     'newer:jshint',
     'karma:continuous',
-    'build'
+    'compress'
   ]);
 };
