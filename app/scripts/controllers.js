@@ -22,8 +22,8 @@ angular.module('Warren.controllers', [])
     window.location = 'maps:daddr=' + branch.latitude + ',' + branch.longitude;
   };
 
-  $scope.Phone = function(number) {
-    window.location = 'tel:' + number;
+  $scope.launchPhone = function(number) {
+    window.open('tel:' + number, '_system');
   };
 })
 
