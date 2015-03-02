@@ -53,6 +53,7 @@ angular.module('Warren.controllers', [])
 
 .controller('SearchCtrl', function($scope) {
   $scope.launchSearch = function(query) {
+    query = encodeURI(query);
     window.open('http://warrenls2.org:8080/mobile?config=ysm#section=search&term=' + query, '_blank', 'location=yes');
   };
 })
