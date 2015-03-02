@@ -19,7 +19,7 @@ angular.module('Warren.controllers', [])
   });
 
   $scope.launchMap = function(branch) {
-    window.location = 'maps:daddr=' + branch.latitude + ',' + branch.longitude;
+    window.location = 'maps:q=' + branch.latitude + ',' + branch.longitude;
   };
 
   $scope.launchPhone = function(number) {
